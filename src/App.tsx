@@ -26,7 +26,7 @@ function App() {
         </p>
       </div>
       <p className="read-the-docs">
-        try to connect my github account to kwon more about skyhaibara.
+        try to connect my github account to know more about skyhaibara.
       </p>
     </>
   )
