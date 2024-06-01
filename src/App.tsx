@@ -22,11 +22,11 @@ function App() {
           count is {count}
         </button>
         <p>
-          QQ：328830204
+          QQ：328830204 wx: sky-sherry-ai .
         </p>
       </div>
       <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
+        try to connect my github account to kwon more about skyhaibara.
       </p>
     </>
   )
