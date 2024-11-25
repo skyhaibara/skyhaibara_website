@@ -1,4 +1,5 @@
 import haibaraImage from './assets/fr_haibara.png';
+import Button from '@mui/material/Button';
 import './App.css'
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
       <p className="read-the-docs">
         try to follow my github account to know more about skyhaibara.
       </p>
+      <Button variant="contained">Hello world</Button>;
     </>
   )
 }
