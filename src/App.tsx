@@ -1,7 +1,6 @@
 import haibaraImage from './assets/fr_haibara.png';
 import Button from '@mui/material/Button';
 import './App.css'
-import React from 'react';
 
 function App() {
   return (
