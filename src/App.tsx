@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
 import haibara from '/haibara.ico'
 import './App.css'
 
