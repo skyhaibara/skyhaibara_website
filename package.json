@@ -9,7 +9,6 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
-    "packageManager": "pnpm@7.5.1"
   },
   "dependencies": {
     "react": "^19.0.0",
