@@ -1,11 +1,7 @@
-import { FC } from 'react'
+import { DoubleNavbar } from '../components/DoubleNavbar'
 
-const About: FC = () => {
-  return (
-    <div>
-      <h1>Welcome to A Page</h1>
-    </div>
-  )
+const About = () => {
+    return <DoubleNavbar></DoubleNavbar>
 }
 
 export default About
