@@ -1,0 +1,38 @@
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: #fff;
+    transition: opacity 0.2s;
+}
+
+.logo:hover {
+    opacity: 0.8;
+}
+
+.logo svg {
+    color: #a78bfa;
+    flex-shrink: 0;
+}
+
+.link {
+    display: inline-block;
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 8px;
+    transition: color 0.2s, background 0.2s;
+}
+
+.link:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.link[data-active] {
+    color: #c4b5fd;
+    background: rgba(124, 58, 237, 0.12);
+}
