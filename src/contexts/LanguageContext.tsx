@@ -16,7 +16,7 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
         <LanguageContext.Provider
             value={{
                 lang,
-                t: translations[lang],
+                t: translations[lang] as unknown as Translations,
                 toggle: () => setLang((l) => (l === 'en' ? 'zh' : 'en')),
             }}
         >
