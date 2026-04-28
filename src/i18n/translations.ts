@@ -209,4 +209,11 @@ export const translations = {
 } as const
 
 export type Lang = keyof typeof translations
-export type Translations = (typeof translations)['en']
+
+type Loosen<T> = T extends string
+    ? string
+    : T extends readonly (infer U)[]
+    ? Loosen<U>[]
+    : { [K in keyof T]: Loosen<T[K]> }
+
+export type Translations = Loosen<(typeof translations)['en']>
