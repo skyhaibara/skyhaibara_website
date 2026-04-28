@@ -1,0 +1,49 @@
+.overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(7, 7, 15, 0.82);
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+    display: grid;
+    place-items: center;
+    opacity: 1;
+    transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1),
+                backdrop-filter 0.9s ease;
+}
+
+.fading {
+    opacity: 0;
+    pointer-events: none;
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.75rem;
+    color: #a78bfa;
+}
+
+.svg {
+    width: min(58vmin, 260px);
+    height: min(58vmin, 260px);
+    overflow: visible;
+}
+
+.label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(167, 139, 250, 0.45);
+    font-family: 'Courier New', monospace;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.45; }
+    50%       { opacity: 0.9; }
+}

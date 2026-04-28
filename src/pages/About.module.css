@@ -76,6 +76,7 @@
 }
 
 .heroName {
+    display: inline-block;
     font-size: clamp(2rem, 5vw, 3rem);
     font-weight: 800;
     background: linear-gradient(135deg, #ffffff 0%, #c4b5fd 45%, #93c5fd 100%);
@@ -84,6 +85,7 @@
     background-clip: text;
     letter-spacing: -0.02em;
     line-height: 1.15;
+    padding-bottom: 0.1em;
 }
 
 /* ── Sections ── */
@@ -92,6 +94,7 @@
 }
 
 .sectionTitle {
+    display: inline-block;
     font-size: clamp(1.5rem, 3.5vw, 2rem);
     font-weight: 700;
     background: linear-gradient(135deg, #ffffff 0%, #c4b5fd 50%, #93c5fd 100%);
@@ -99,6 +102,7 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
     letter-spacing: -0.01em;
+    padding-bottom: 0.08em;
 }
 
 /* Value cards */

@@ -1,15 +1,9 @@
 import {
     Container,
-    Title,
     Text,
     Button,
-    Group,
-    Avatar,
-    Stack,
-    SimpleGrid,
-    Card,
-    Badge,
     ThemeIcon,
+    Avatar,
 } from '@mantine/core'
 import { useNavigate } from 'react-router'
 import {
@@ -20,209 +14,211 @@ import {
     IconBrandNodejs,
     IconBrandPython,
     IconArrowDown,
+    IconArrowUpRight,
 } from '@tabler/icons-react'
 import { useLanguage } from '../contexts/LanguageContext'
 import classes from './Home.module.css'
 import FadeIn from '../components/FadeIn'
 
 const projectMeta = [
-    { tags: ['React', 'TypeScript'], href: 'https://blog.skyhaibara.top', icon: '✍️' },
-    { tags: ['GitHub', 'OSS'], href: 'https://github.com/skyhaibara', icon: '🔓' },
-    { tags: ['Mantine', 'Vite'], href: '#', icon: '🌐' },
+    { tags: ['React', 'TypeScript'], href: 'https://blog.skyhaibara.top' },
+    { tags: ['GitHub', 'OSS'],       href: 'https://github.com/skyhaibara' },
+    { tags: ['Mantine', 'Vite'],     href: '#' },
 ]
 
 const techIcons = [
-    { icon: IconBrandReact, label: 'React', color: '#61dafb' },
-    { icon: IconBrandTypescript, label: 'TypeScript', color: '#3178c6' },
-    { icon: IconBrandNodejs, label: 'Node.js', color: '#68a063' },
-    { icon: IconBrandPython, label: 'Python', color: '#ffd43b' },
+    { icon: IconBrandReact,      label: 'React',      color: '#61dafb' },
+    { icon: IconBrandTypescript, label: 'TypeScript',  color: '#3178c6' },
+    { icon: IconBrandNodejs,     label: 'Node.js',     color: '#68a063' },
+    { icon: IconBrandPython,     label: 'Python',      color: '#ffd43b' },
+]
+
+const stats = [
+    { num: '3+',  labelEn: 'Years Coding',   labelZh: '年编程经历' },
+    { num: '10+', labelEn: 'Projects Built',  labelZh: '个项目作品' },
+    { num: '∞',   labelEn: 'Things to Learn', labelZh: '永无止境的探索' },
 ]
 
 const Home = () => {
     const navigate = useNavigate()
-    const { t } = useLanguage()
+    const { t, lang } = useLanguage()
     const h = t.home
 
     return (
         <div className={classes.page}>
-            {/* ── Hero ── */}
+            {/* ── Hero ────────────────────────────────────────────── */}
             <section className={classes.hero}>
                 <div className={classes.orb1} />
                 <div className={classes.orb2} />
                 <div className={classes.orb3} />
 
-                <Container size="md" className={classes.heroContent}>
+                <div className={classes.heroInner}>
                     <FadeIn>
-                        <Stack align="center" gap="xl">
-                            <div className={classes.avatarWrap}>
-                                <Avatar
-                                    src="/haibara.ico"
-                                    size={110}
-                                    radius="xl"
-                                    className={classes.avatar}
-                                />
-                                <div className={classes.avatarGlow} />
+                        {/* Eyebrow */}
+                        <div className={classes.heroEyebrow}>
+                            <Avatar
+                                src="/haibara.ico"
+                                size={36}
+                                radius="xl"
+                                className={classes.eyebrowAvatar}
+                            />
+                            <span className={classes.eyebrowDot} />
+                            <span className={classes.eyebrowText}>
+                                {lang === 'en' ? 'Portfolio — 2025' : '作品集 — 2025'}
+                            </span>
+                        </div>
+
+                        {/* Display name */}
+                        <h1 className={classes.displayName}>
+                            skyhaibara<span />
+                        </h1>
+
+                        <div className={classes.heroDivider} />
+
+                        {/* Meta row */}
+                        <div className={classes.heroMeta}>
+                            <div className={classes.heroLeft}>
+                                <p className={classes.heroSub}>{h.heroSub}</p>
+                                <p className={classes.heroDesc}>{h.heroDesc}</p>
+                                <div className={classes.heroActions}>
+                                    <a
+                                        href="https://blog.skyhaibara.top"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className={classes.ctaLink}
+                                    >
+                                        {h.visitBlog}
+                                        <IconArrowUpRight size={14} />
+                                    </a>
+                                    <button
+                                        onClick={() => navigate('/contact')}
+                                        className={`${classes.ctaLink} ${classes.ctaLinkSecondary}`}
+                                    >
+                                        {h.getInTouch}
+                                        <IconArrowRight size={14} />
+                                    </button>
+                                </div>
                             </div>
 
-                            <Stack align="center" gap="sm">
-                                <Title order={1} className={classes.heroName}>
-                                    skyhaibara
-                                </Title>
-                                <Text className={classes.heroSub}>{h.heroSub}</Text>
-                                <Text c="dimmed" size="md" ta="center" maw={460} lh={1.9}>
-                                    {h.heroDesc}
-                                </Text>
-                            </Stack>
-
-                            <Group gap="md" mt="sm">
-                                <Button
-                                    component="a"
-                                    href="https://blog.skyhaibara.top"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    size="lg"
-                                    variant="gradient"
-                                    gradient={{ from: 'violet', to: 'indigo', deg: 45 }}
-                                    rightSection={<IconArrowRight size={16} />}
-                                    className={classes.ctaPrimary}
-                                >
-                                    {h.visitBlog}
-                                </Button>
-                                <Button
-                                    onClick={() => navigate('/contact')}
-                                    size="lg"
-                                    variant="outline"
-                                    color="violet"
-                                    className={classes.ctaSecondary}
-                                >
-                                    {h.getInTouch}
-                                </Button>
-                            </Group>
-
-                            <Group gap="lg" mt="xs">
-                                {techIcons.map((t) => (
-                                    <ThemeIcon
-                                        key={t.label}
-                                        size="lg"
-                                        radius="md"
-                                        variant="transparent"
-                                        style={{ color: t.color }}
-                                        title={t.label}
-                                    >
-                                        <t.icon size={22} />
-                                    </ThemeIcon>
-                                ))}
-                            </Group>
-                        </Stack>
+                            <div className={classes.heroRight}>
+                                <div className={classes.techRow}>
+                                    {techIcons.map((t) => (
+                                        <ThemeIcon
+                                            key={t.label}
+                                            size="md"
+                                            radius="md"
+                                            variant="transparent"
+                                            style={{ color: t.color }}
+                                            title={t.label}
+                                        >
+                                            <t.icon size={18} />
+                                        </ThemeIcon>
+                                    ))}
+                                </div>
+                                <div className={classes.scrollHint}>
+                                    <IconArrowDown size={15} className={classes.scrollIcon} />
+                                    <Text size="xs" c="dimmed">scroll</Text>
+                                </div>
+                            </div>
+                        </div>
                     </FadeIn>
-
-                    <div className={classes.scrollHint}>
-                        <IconArrowDown size={18} className={classes.scrollIcon} />
-                        <Text size="xs" c="dimmed">scroll</Text>
-                    </div>
-                </Container>
+                </div>
             </section>
 
-            {/* ── Projects ── */}
+            {/* ── Stats strip ─────────────────────────────────────── */}
+            <FadeIn>
+                <div className={classes.statsStrip}>
+                    <Container size="lg">
+                        <div className={classes.statsGrid}>
+                            {stats.map((s) => (
+                                <div key={s.num} className={classes.statItem}>
+                                    <div className={classes.statNum}>{s.num}</div>
+                                    <div className={classes.statLabel}>
+                                        {lang === 'en' ? s.labelEn : s.labelZh}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </Container>
+                </div>
+            </FadeIn>
+
+            {/* ── Projects list ────────────────────────────────────── */}
             <FadeIn>
                 <section className={classes.section}>
                     <Container size="lg">
-                        <Stack gap="3rem">
-                            <Stack align="center" gap="sm">
-                                <Badge variant="dot" color="violet" size="lg">
-                                    {h.projectsBadge}
-                                </Badge>
-                                <Title order={2} className={classes.sectionTitle}>
-                                    {h.projectsTitle}
-                                </Title>
-                                <Text c="dimmed" ta="center" maw={480} lh={1.7}>
-                                    {h.projectsDesc}
-                                </Text>
-                            </Stack>
+                        <div className={classes.sectionHeader}>
+                            <span className={classes.sectionLabel}>{h.projectsBadge}</span>
+                            <span className={classes.sectionCount}>
+                                {String(h.projects.length).padStart(2, '0')}
+                            </span>
+                        </div>
 
-                            <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="lg">
-                                {h.projects.map((p, i) => (
-                                    <Card
-                                        key={p.title}
-                                        component="a"
+                        <ul className={classes.projectsList}>
+                            {h.projects.map((p, i) => (
+                                <li key={p.title}>
+                                    <a
                                         href={projectMeta[i].href}
-                                        target={
-                                            projectMeta[i].href !== '#' ? '_blank' : undefined
-                                        }
+                                        target={projectMeta[i].href !== '#' ? '_blank' : undefined}
                                         rel="noopener noreferrer"
-                                        className={classes.projectCard}
-                                        padding="xl"
-                                        radius="lg"
+                                        className={classes.projectItem}
                                     >
-                                        <Stack gap="md">
-                                            <Text size="2rem">{projectMeta[i].icon}</Text>
-                                            <div>
-                                                <Text fw={600} size="lg" c="white" mb={6}>
-                                                    {p.title}
-                                                </Text>
-                                                <Text size="sm" c="dimmed" lh={1.7}>
-                                                    {p.desc}
-                                                </Text>
-                                            </div>
-                                            <Group gap="xs" mt="auto">
+                                        <span className={classes.projectNum}>
+                                            {String(i + 1).padStart(2, '0')}
+                                        </span>
+                                        <div className={classes.projectBody}>
+                                            <span className={classes.projectTitle}>{p.title}</span>
+                                            <span className={classes.projectDesc}>{p.desc}</span>
+                                            <div className={classes.projectTagRow}>
                                                 {projectMeta[i].tags.map((tag) => (
-                                                    <Badge
-                                                        key={tag}
-                                                        variant="light"
-                                                        color="violet"
-                                                        size="sm"
-                                                    >
+                                                    <span key={tag} className={classes.projectTag}>
                                                         {tag}
-                                                    </Badge>
+                                                    </span>
                                                 ))}
-                                            </Group>
-                                        </Stack>
-                                    </Card>
-                                ))}
-                            </SimpleGrid>
-                        </Stack>
+                                            </div>
+                                        </div>
+                                        <IconArrowUpRight
+                                            size={20}
+                                            className={classes.projectArrow}
+                                        />
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
                     </Container>
                 </section>
             </FadeIn>
 
-            {/* ── CTA Banner ── */}
-            <FadeIn delay={100}>
-                <section className={classes.section}>
-                    <Container size="md">
-                        <Card className={classes.ctaBanner} padding="3rem" radius="xl">
-                            <div className={classes.bannerGlow} />
-                            <Stack align="center" gap="lg">
-                                <Title order={2} c="white" ta="center" size="1.8rem">
-                                    {h.ctaTitle}
-                                </Title>
-                                <Text c="dimmed" ta="center" maw={380} lh={1.7}>
-                                    {h.ctaDesc}
-                                </Text>
-                                <Group gap="md">
-                                    <Button
-                                        onClick={() => navigate('/contact')}
-                                        size="md"
-                                        variant="gradient"
-                                        gradient={{ from: 'violet', to: 'indigo', deg: 45 }}
-                                        rightSection={<IconArrowRight size={15} />}
-                                    >
-                                        {h.sayHello}
-                                    </Button>
-                                    <Button
-                                        component="a"
-                                        href="https://github.com/skyhaibara"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        size="md"
-                                        variant="subtle"
-                                        color="violet"
-                                        leftSection={<IconBrandGithub size={17} />}
-                                    >
-                                        GitHub
-                                    </Button>
-                                </Group>
-                            </Stack>
-                        </Card>
+            {/* ── CTA ─────────────────────────────────────────────── */}
+            <FadeIn>
+                <section className={classes.ctaBig}>
+                    <div className={classes.ctaBigGlow} />
+                    <Container size="lg">
+                        <h2 className={classes.ctaDisplay}>{h.ctaTitle}</h2>
+                        <p className={classes.ctaSubtext}>{h.ctaDesc}</p>
+                        <div className={classes.ctaButtonRow}>
+                            <Button
+                                onClick={() => navigate('/contact')}
+                                size="md"
+                                variant="gradient"
+                                gradient={{ from: 'violet', to: 'indigo', deg: 45 }}
+                                rightSection={<IconArrowRight size={15} />}
+                            >
+                                {h.sayHello}
+                            </Button>
+                            <Button
+                                component="a"
+                                href="https://github.com/skyhaibara"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                size="md"
+                                variant="subtle"
+                                color="violet"
+                                leftSection={<IconBrandGithub size={17} />}
+                            >
+                                GitHub
+                            </Button>
+                        </div>
                     </Container>
                 </section>
             </FadeIn>
