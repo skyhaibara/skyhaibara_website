@@ -2,29 +2,43 @@
     position: fixed;
     inset: 0;
     z-index: 9999;
-    background: rgba(7, 7, 15, 0.82);
+    background: rgba(7, 7, 15, 0.92);
     backdrop-filter: blur(28px);
     -webkit-backdrop-filter: blur(28px);
     display: grid;
     place-items: center;
-    opacity: 1;
-    transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1),
-                backdrop-filter 0.9s ease;
+    transition: opacity 1.0s cubic-bezier(0.4, 0, 0.2, 1),
+                backdrop-filter 1.0s ease,
+                background 1.0s ease;
 }
 
-.fading {
+.overlayFade {
     opacity: 0;
     pointer-events: none;
     backdrop-filter: blur(0px);
     -webkit-backdrop-filter: blur(0px);
+    background: rgba(7, 7, 15, 0);
 }
 
-.content {
+/* ── Rose wrapper ── */
+.roseWrap {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1.75rem;
     color: #a78bfa;
+    /* sits at viewport center initially */
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 0.4s ease;
+}
+
+/* Flies to left-center, shrinks — rAF keeps the inner SVG spinning */
+.roseLeft {
+    transform: translate(calc(-50% - 30vw), -50%) scale(0.22);
 }
 
 .svg {
@@ -41,9 +55,60 @@
     color: rgba(167, 139, 250, 0.45);
     font-family: 'Courier New', monospace;
     animation: pulse 2s ease-in-out infinite;
+    white-space: nowrap;
 }
 
 @keyframes pulse {
     0%, 100% { opacity: 0.45; }
     50%       { opacity: 0.9; }
+}
+
+/* ── Text that spins out from the rose ── */
+.textWrap {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    /* starts near where the rose will be (left), flies to center-right */
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    animation: spinThrow 1.75s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both;
+    pointer-events: none;
+}
+
+@keyframes spinThrow {
+    0% {
+        opacity: 0;
+        transform: translateY(-50%) translateX(-8vw) rotate(-25deg) scale(0.55);
+    }
+    55% { opacity: 1; }
+    100% {
+        opacity: 1;
+        transform: translateY(-50%) translateX(2vw) rotate(0deg) scale(1);
+    }
+}
+
+.textName {
+    display: inline-block;
+    font-size: clamp(2rem, 6vw, 4.2rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    padding-bottom: 0.1em;
+    background: linear-gradient(135deg, #fff 0%, #c4b5fd 50%, #93c5fd 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    white-space: nowrap;
+}
+
+.textSub {
+    font-size: clamp(0.7rem, 1.4vw, 0.85rem);
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(167, 139, 250, 0.5);
+    font-family: 'Courier New', monospace;
+    white-space: nowrap;
 }

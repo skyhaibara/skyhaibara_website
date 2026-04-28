@@ -10,8 +10,8 @@ const App = () => {
 
     return (
         <>
-            {!loaded && <LoadingScreen onDone={handleDone} />}
-            <RouterProvider router={router} />
+            <LoadingScreen onDone={handleDone} />
+            {loaded && <RouterProvider router={router} />}
         </>
     )
 }
