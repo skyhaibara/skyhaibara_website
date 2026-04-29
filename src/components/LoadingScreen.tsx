@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 import classes from './LoadingScreen.module.css'
 
 const CFG = {
@@ -40,14 +40,19 @@ function buildPath(ds: number, steps = 480) {
     }).join(' ')
 }
 
+// playing  → exiting (auto 3.5s): Rose flies left, text spins right
+// exiting  → ready   (auto 3.5s + 1.75s): show click/scroll prompt
+// ready    → fading  (user click or scroll): backdrop fades
+// fading   → onDone  (after 1s)
+type Phase = 'playing' | 'exiting' | 'ready' | 'fading'
+
 interface Props { onDone: () => void }
 
 const LoadingScreen = ({ onDone }: Props) => {
     const groupRef = useRef<SVGGElement>(null)
     const pathRef  = useRef<SVGPathElement>(null)
     const rafRef   = useRef<number>(0)
-    const [exiting, setExiting] = useState(false) // rose moves to left + text appears
-    const [fading,  setFading]  = useState(false) // backdrop fades out
+    const [phase, setPhase] = useState<Phase>('playing')
 
     useEffect(() => {
         const SVG_NS = 'http://www.w3.org/2000/svg'
@@ -78,7 +83,7 @@ const LoadingScreen = ({ onDone }: Props) => {
                 const fade = Math.pow(1 - tail, 0.56)
                 node.setAttribute('cx', p.x.toFixed(2))
                 node.setAttribute('cy', p.y.toFixed(2))
-                node.setAttribute('r',  (0.9  + fade * 2.7 ).toFixed(2))
+                node.setAttribute('r',  (0.9  + fade * 2.7).toFixed(2))
                 node.setAttribute('opacity', (0.04 + fade * 0.96).toFixed(3))
             })
 
@@ -87,27 +92,47 @@ const LoadingScreen = ({ onDone }: Props) => {
 
         rafRef.current = requestAnimationFrame(render)
 
-        // 3500ms → rose moves left + text spins out
-        // 4400ms → backdrop starts fading
-        // 5200ms → unmount
-        const t1 = setTimeout(() => setExiting(true), 3500)
-        const t2 = setTimeout(() => setFading(true),  4400)
-        const t3 = setTimeout(() => onDone(),          5200)
+        // Auto-trigger exit animation at 3.5s
+        const t1 = setTimeout(() => setPhase('exiting'), 3500)
+        // Show prompt after spinThrow animation completes (1.75s)
+        const t2 = setTimeout(() => setPhase('ready'), 3500 + 1750)
 
         return () => {
             cancelAnimationFrame(rafRef.current)
             clearTimeout(t1)
             clearTimeout(t2)
-            clearTimeout(t3)
             particles.forEach((p) => p.remove())
         }
+    }, [])
+
+    const handleEnter = useCallback(() => {
+        setPhase('fading')
+        setTimeout(() => onDone(), 1000)
     }, [onDone])
 
-    return (
-        <div className={`${classes.overlay} ${fading ? classes.overlayFade : ''}`}>
+    // Listen for scroll/wheel/touch when waiting for user input
+    useEffect(() => {
+        if (phase !== 'ready') return
+        const onWheel = () => handleEnter()
+        const onTouch = () => handleEnter()
+        window.addEventListener('wheel', onWheel, { once: true })
+        window.addEventListener('touchstart', onTouch, { once: true })
+        return () => {
+            window.removeEventListener('wheel', onWheel)
+            window.removeEventListener('touchstart', onTouch)
+        }
+    }, [phase, handleEnter])
 
-            {/* Rose — moves to left-center on exit, keeps spinning via rAF */}
-            <div className={`${classes.roseWrap} ${exiting ? classes.roseLeft : ''}`}>
+    const isExited = phase === 'exiting' || phase === 'ready' || phase === 'fading'
+
+    return (
+        <div
+            className={`${classes.overlay} ${phase === 'fading' ? classes.overlayFade : ''}`}
+            onClick={phase === 'ready' ? handleEnter : undefined}
+            style={{ cursor: phase === 'ready' ? 'pointer' : 'default' }}
+        >
+            {/* Rose — flies to left once exiting starts */}
+            <div className={`${classes.roseWrap} ${isExited ? classes.roseLeft : ''}`}>
                 <svg
                     viewBox="0 0 100 100"
                     fill="none"
@@ -125,15 +150,25 @@ const LoadingScreen = ({ onDone }: Props) => {
                         />
                     </g>
                 </svg>
-                {/* label only during playing phase */}
-                {!exiting && <span className={classes.label}>skyhaibara</span>}
+
+                {phase === 'playing' && (
+                    <span className={classes.label}>skyhaibara</span>
+                )}
             </div>
 
-            {/* Text spins out from the rose toward center-right */}
-            {exiting && (
+            {/* Text spins out automatically when exiting starts */}
+            {isExited && (
                 <div className={classes.textWrap} aria-hidden="true">
                     <span className={classes.textName}>skyhaibara</span>
                     <span className={classes.textSub}>Full-Stack Developer</span>
+                </div>
+            )}
+
+            {/* Click / scroll prompt after animation settles */}
+            {phase === 'ready' && (
+                <div className={classes.enterHint}>
+                    <span className={classes.enterDot} />
+                    <span className={classes.enterText}>点击或下滑进入</span>
                 </div>
             )}
         </div>

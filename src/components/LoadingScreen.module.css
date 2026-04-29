@@ -38,7 +38,7 @@
 
 /* Flies to left-center, shrinks — rAF keeps the inner SVG spinning */
 .roseLeft {
-    transform: translate(calc(-50% - 30vw), -50%) scale(0.22);
+    transform: translate(calc(-50% - 30vw), -50%) scale(0.64);
 }
 
 .svg {
@@ -61,6 +61,43 @@
 @keyframes pulse {
     0%, 100% { opacity: 0.45; }
     50%       { opacity: 0.9; }
+}
+
+/* ── Click / scroll prompt ── */
+.enterHint {
+    position: absolute;
+    bottom: 2.75rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    animation: fadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+    pointer-events: none;
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+    to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+.enterDot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #a78bfa;
+    flex-shrink: 0;
+    animation: pulse 1.6s ease-in-out infinite;
+}
+
+.enterText {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(167, 139, 250, 0.7);
+    font-family: 'Courier New', monospace;
+    white-space: nowrap;
 }
 
 /* ── Text that spins out from the rose ── */
